@@ -1,13 +1,14 @@
 # Zhaoyu Wang developed
 # time: 2023-03-28 12:03 p.m.
 
+filename = 'student.txt'
 def main():
     while True:
         menu()
-        choice = int(input('plz select'))
+        choice = int(input('plz select:\n'))
         if choice in range(8):
             if choice == 0:
-                answer = input('Are you sure to exit?y/n').lower()
+                answer = input('Are you sure to exit?y/n:\n').lower()
                 if answer == 'y':
                     print('Thank you for using')
                     break
@@ -44,8 +45,41 @@ def menu():
 
 
 def insert():
-    pass
+    student_list = []
+    while True:
+        id = input('please enter ID:\n')
+        if not id:
+            break
+        name = input('please enter name:\n')
+        if not name:
+            break
 
+        try:
+            english = int(input('enter English score:\n'))
+            python = int(input('enter Python score:\n'))
+            java = int(input('enter Java score:\n'))
+        except:
+            print('please enter valid number:\n')
+            continue
+        student = {'id':id, 'name':name, 'english':english, 'python':python, 'java':java}
+        student_list.append(student)
+        answer = input('continue adding?y/n:\n').lower()
+        if answer == 'y':
+            continue
+        else:
+            break
+
+    save(student_list)
+    print('finishing enter new student')
+
+def save(lst):
+    try:
+        stu_txt = open(filename,'a', encoding='UTF-8')
+    except:
+        stu_txt = open(filename,'w', encoding='UTF-8')
+    for item in lst:
+        stu_txt.write(str(item)+'\n')
+    stu_txt.close()
 
 def search():
     pass
