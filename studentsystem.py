@@ -1,7 +1,10 @@
 # Zhaoyu Wang developed
 # time: 2023-03-28 12:03 p.m.
+import os.path
 
 filename = 'student.txt'
+
+
 def main():
     while True:
         menu()
@@ -61,7 +64,7 @@ def insert():
         except:
             print('please enter valid number:\n')
             continue
-        student = {'id':id, 'name':name, 'english':english, 'python':python, 'java':java}
+        student = {'id': id, 'name': name, 'english': english, 'python': python, 'java': java}
         student_list.append(student)
         answer = input('continue adding?y/n:\n').lower()
         if answer == 'y':
@@ -72,25 +75,88 @@ def insert():
     save(student_list)
     print('finishing enter new student')
 
+
 def save(lst):
     try:
-        stu_txt = open(filename,'a', encoding='UTF-8')
+        stu_txt = open(filename, 'a', encoding='UTF-8')
     except:
-        stu_txt = open(filename,'w', encoding='UTF-8')
+        stu_txt = open(filename, 'w', encoding='UTF-8')
     for item in lst:
-        stu_txt.write(str(item)+'\n')
+        stu_txt.write(str(item) + '\n')
     stu_txt.close()
+
 
 def search():
     pass
 
 
 def delete():
-    pass
+    while True:
+        student_id = input('enter the ID you want to delete')
+        if student_id != '':
+            if os.path.exists(filename):  # 判断文件是否存在 filename=student。txt
+                with open(filename, 'r', encoding='utf-8') as file:  # 遍历所有信息存到student_old里面
+                    student_old = file.readlines()
+                    # print(student_old)
+            else:
+                student_old = []  # 不明白
+            flag = False  # 标记是否删除   不明白
+            if student_old:
+                with open(filename, 'w', encoding='utf-8') as wfile:
+                    d = {}
+                    for item in student_old:  # 每一个item 是一个字典对应一个学生的所有信息， id english python java
+                        d = dict(eval(item))  # 将字符串转换成字典 ???
+                        if d['id'] != student_id:  # 重新写入数据，唯独不写要删除的一条
+                            wfile.write(str(d) + '\n')
+                        else:
+                            flag = True
+                    if flag:
+                        print(f'id {student_id} has been deleted')
+                    else:
+                        print(f'id {student_id} is not found')
+            else:
+                print('no information')
+                break
+            display_all_students()  # 删除之后显示全部
+            answer = input('continue delete?y/n ').lower()
+            if answer == 'y':
+                continue
+            else:
+                break
 
 
 def update():
-    pass
+    display_all_students()
+    if os.path.exists(filename):
+        with open(filename, 'r', encoding='utf-8') as rfile:
+            student_old = rfile.readlines()
+    else:
+        return # else下只写一个return，程序执行到这一步是会自动退出函数，
+               # 即使是在一个循环体内，程序也不会在执行，此时return 相当于None即一个空值
+    student_id = input('please enter the ID you want to update')
+    with open(filename,'w', encoding='utf-8') as wfile:
+        for item in student_old:
+            d = dict(eval(item))
+            if d['id'] == student_id:
+                print('find it, update now!')
+                while True:
+                    try:
+                        d['name'] = input('enter name')
+                        d['english'] = input('enter English score')
+                        d['python'] = input('enter Python score')
+                        d['java'] = input('enter Java score')
+                    except:
+                        print('error, enter again')
+                        continue
+                    else:
+                        break
+                wfile.write(str(d) + '\n')
+                print('update successful')
+            else:
+                wfile.write(str(d) + '\n')
+        answer = input('do you want to update others?y/n ').lower()
+        if answer == 'y':
+            update()
 
 
 def sort():
@@ -103,5 +169,7 @@ def display_total_number():
 
 def display_all_students():
     pass
-if __name__ == '__main__': # 不明白
+
+
+if __name__ == '__main__':  # 不明白
     main()
