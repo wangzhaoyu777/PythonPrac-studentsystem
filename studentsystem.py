@@ -87,7 +87,55 @@ def save(lst):
 
 
 def search():
-    pass
+    student_query = []
+    while True:
+        id = ''
+        name = ''
+        if os.path.exists(filename):
+            mode = input('enter 1: search by ID; enter 2: search by name')
+            if mode == '1':
+                id = input('enter student ID')
+            elif mode == '2':
+                name = input('enter student name')
+            else:
+                print('enter error, please enter again')
+                search()
+            with open(filename, 'r', encoding='utf-8') as rfile:
+                student = rfile.readlines()
+                for item in student:
+                    d = dict(eval(item))
+                    if id != '':
+                        if d['id'] == id:
+                            student_query.append(d)
+                    elif name !='':
+                        if d['name'] == name:
+                            student_query.append(d)
+                #n显示查询结果
+                show_student(student_query)
+                #清空列表
+                student_query.clear()
+                answer = input('Do you want to search another one?y/n \n').lower()
+                if answer == 'y':
+                    continue
+                else:
+                    break
+
+def show_student(lst):
+    if len(lst) == 0:
+        print('no student exist, please confirm')
+        return
+    #定义标题格式
+    format_title = '{:^6}\t{:^12}\t{:^8}\t{:^10}\t{:^10}\t{:^8}'
+    print(format_title.format('ID', 'Name', 'English', 'Python', 'Java', 'Total'))
+    #定义内容的显示格式
+    format_data = '{:^6}\t{:^12}\t{:^8}\t{:^10}\t{:^10}\t{:^8}'
+    for item in lst:
+        print(format_data.format(item.get('id'),
+                                 item.get('name'),
+                                 item.get('english'),
+                                 item.get('python'),
+                                 item.get('java'),
+                                 int(item.get('english')) + int(item.get('python')) + int(item.get('java'))))
 
 
 def delete():
@@ -160,15 +208,57 @@ def update():
 
 
 def sort():
-    pass
-
+    display_all_students()
+    if os.path.exists(filename):
+        with open(filename,'r', encoding='utf-8') as rfile:
+            student_list = rfile.readlines()
+        student_new = []
+        for item in student_list:
+            d = dict(eval(item))
+            student_new.append(d)
+    else:
+        return
+    asc_or_desc = input('please select 0. ascending; 1. descending:')
+    if asc_or_desc == '0':
+          asc_or_desc_bool = False
+    elif asc_or_desc == '1':
+        asc_or_desc_bool = True
+    else:
+        print('Enter error')
+        sort()
+    mode = input('Please select sorting by: 1.English 2.Python 3.Java 4. Total ')
+    if mode == '1':
+        student_new.sort(key=lambda x : int(x['english']), reverse=asc_or_desc_bool)
+    elif mode == '2':
+        student_new.sort(key=lambda x : int(x['python']), reverse=asc_or_desc_bool)
+    elif mode == '3':
+        student_new.sort(key=lambda x : int(x['java']), reverse=asc_or_desc_bool)
+    elif mode == '0':
+        student_new.sort(key=lambda x : int(x['english']) + int(x['python']) + int(x['java']), reverse=asc_or_desc_bool)
+    else:
+        print('error')
+        sort()
+    show_student(student_new)
 
 def display_total_number():
-    pass
+    if os.path.exists(filename):
+        with open(filename, 'r', encoding='utf-8') as rfile:
+            students = rfile.readlines()
+            if students:
+                print(f'There are {len(students)} students')
+            else:
+                print('no result')
 
 
 def display_all_students():
-    pass
+    students_lst = []
+    if os.path.exists(filename):
+        with open(filename,'r', encoding='utf-8') as rfile:
+            students = rfile.readlines()
+            for item in students:
+                students_lst.append(eval(item))
+            if students_lst:
+                show_student(students_lst)
 
 
 if __name__ == '__main__':  # 不明白

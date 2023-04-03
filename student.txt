@@ -1,5 +1,5 @@
 {'id': '1004', 'name': 'Joey', 'english': '45', 'python': '65', 'java': '6954'}
-{'id': '1006', 'name': 'Kathy', 'english': 98, 'python': 98, 'java': 98}
-{'id': '1007', 'name': 'Kathy', 'english': 98, 'python': 98, 'java': 98}
-{'id': '1008', 'name': 'Kathy', 'english': 98, 'python': 98, 'java': 98}
-{'id': '1009', 'name': 'Kathy', 'english': 98, 'python': 98, 'java': 98}
+{'id': '1006', 'name': 'Kathy', 'english': 98, 'python': 98, 'java': 8}
+{'id': '1007', 'name': 'Kathy', 'english': 5, 'python': 78, 'java': 98}
+{'id': '1008', 'name': 'Kathy', 'english': 77, 'python': 40, 'java': 6}
+{'id': '1009', 'name': 'Kathy', 'english': 6, 'python': 8, 'java': 967}
